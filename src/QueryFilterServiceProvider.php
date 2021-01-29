@@ -5,13 +5,13 @@
  * @version 1.0
  */
 
-namespace Laracodes\QueryFilter;
+namespace Samushi\QueryFilter;
 
 
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\ServiceProvider;
-use Laracodes\QueryFilter\Contract\QueryFilterInterface;
-use Laracodes\QueryFilter\QueryFilter;
+use Samushi\QueryFilter\Contract\QueryFilterInterface;
+use Samushi\QueryFilter\QueryFilter;
 
 class QueryFilterServiceProvider extends ServiceProvider
 {

@@ -1,6 +1,6 @@
 <?php
 
-namespace Laracodes\QueryFilter;
+namespace Samushi\QueryFilter;
 
 
 use Closure;

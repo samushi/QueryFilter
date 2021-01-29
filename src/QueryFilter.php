@@ -5,9 +5,9 @@
  * @version 1.0
  */
 
-namespace Laracodes\QueryFilter;
+namespace Samushi\QueryFilter;
 
-use Laracodes\QueryFilter\Contract\QueryFilterInterface;
+use Samushi\QueryFilter\Contract\QueryFilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pipeline\Pipeline;
 

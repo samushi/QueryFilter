@@ -5,7 +5,7 @@
  * @version 1.0
  */
 
-namespace Laracodes\QueryFilter\Contract;
+namespace Samushi\QueryFilter\Contract;
 
 
 use Illuminate\Database\Eloquent\Builder;

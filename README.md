@@ -21,7 +21,7 @@ Create directory inside app folder and rename Filters, and then create Search.ph
 **Step 2** copy and past code:
 ```php
 namespace App\Filters;
-use Laracodes\QueryFilter\Filter;
+use Samushi\QueryFilter\Filter;
 
 class Search extends Filter
 {

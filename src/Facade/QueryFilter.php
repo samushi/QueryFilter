@@ -5,11 +5,11 @@
  * @version 1.0
  */
 
-namespace Laracodes\QueryFilter\Facade;
+namespace Samushi\QueryFilter\Facade;
 
 
 use Illuminate\Support\Facades\Facade;
-use Laracodes\QueryFilter\Contract\QueryFilterInterface;
+use Samushi\QueryFilter\Contract\QueryFilterInterface;
 
 class QueryFilter extends Facade
 {
