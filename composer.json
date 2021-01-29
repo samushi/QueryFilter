@@ -1,0 +1,11 @@
+{
+    "name": "laracodes/queryfilter",
+    "authors": [
+        {
+            "name": "Sami Maxhuni",
+            "email": "samimaxhuni510@gmail.com"
+        }
+    ],
+    "minimum-stability": "dev",
+    "require": {}
+}
