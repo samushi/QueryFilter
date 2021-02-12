@@ -26,7 +26,7 @@ use Samushi\QueryFilter\Filter;
 class Search extends Filter
 {
     /**
-     * Search Result by whereLike
+     * Search Result by whereName
      * @param $builder
      * @return mixed
      */
