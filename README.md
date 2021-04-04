@@ -51,5 +51,3 @@ $filters = [
 QueryFilter::query(User::newQuery(), $filters)->paginate(10);
 
 ``` 
-
-[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/Y8Y43HYMD)
