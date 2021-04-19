@@ -1,11 +1,16 @@
 {
     "name": "samushi/queryfilter",
+    "description": "This package allows you to filter, sort and include eloquent relations based on a request. The QueryFilter used in this package extends Laravel's default Eloquent builder. This means all your favorite methods and macros are still available",
+    "license": "MIT",
     "authors": [
         {
             "name": "Sami Maxhuni",
             "email": "samimaxhuni510@gmail.com"
         }
     ],
+    "suggest": {
+        "samushi/vuex-global-settings": "Vue plugin that helps to set and get data from vuex store"
+    },
     "minimum-stability": "dev",
     "require": {}
 }
