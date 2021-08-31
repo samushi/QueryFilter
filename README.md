@@ -51,3 +51,5 @@ $filters = [
 QueryFilter::query(User::newQuery(), $filters)->paginate(10);
 
 ``` 
+
+Please dont forget to rate :heart_eyes:
