@@ -1,12 +1,6 @@
 <?php
-/**
- * File QueryFilterServiceProvider.php.
- * @copyright 2021
- * @version 1.0
- */
 
 namespace Samushi\QueryFilter;
-
 
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\ServiceProvider;
