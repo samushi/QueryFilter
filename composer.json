@@ -22,7 +22,10 @@
         "laravel": {
             "providers": [
                 "Samushi\\QueryFilter\\QueryFilterServiceProvider"
-            ]
+            ],
+            "aliases": {
+                "QueryFilter": "Samushi\\QueryFilter\\Facade\\QueryFilter" 
+            }
         }
     }
 }
