@@ -32,7 +32,8 @@ class Search extends Filter
      */
     protected function applyFilter($builder)
     {
-        return $builder->whereName(request()->get($this->fillterName()));
+        // if you wanna search with realtionship [name, 'posts.title']
+        return $builder->whereLike(['name'], request()->get($this->fillterName()));
     }
 }
 ```
