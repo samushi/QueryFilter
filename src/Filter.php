@@ -5,6 +5,7 @@ namespace Samushi\QueryFilter;
 
 use Closure;
 use Illuminate\Support\Str;
+use Illuminate\Http\Request;
 
 abstract class Filter
 {
@@ -21,7 +22,6 @@ abstract class Filter
      */
     public function handle($request, Closure $next)
     {
-
         if(
             !request()->has($this->fillterName()) ||
             request()->get($this->fillterName()) === ""
@@ -40,6 +40,15 @@ abstract class Filter
      * @return mixed
      */
     protected abstract function applyFilter($builder);
+
+    /**
+     * Get Value
+     * @return string
+     */
+    protected function getValue() : string
+    {
+        return request($this->fillterName());
+    }
 
     /**
      * Filter class name
