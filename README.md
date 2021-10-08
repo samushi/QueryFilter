@@ -45,12 +45,17 @@ class Search extends Filter
 use App\User;
 use App\Filters\Search;
 
-$filters = [
-    Search::class,
-];
+class UserController extends Controller
+{
+    public function index()
+    {
+        $filters = [
+            Search::class,
+        ];
 
-QueryFilter::query(User::newQuery(), $filters)->paginate(10);
-
+        return QueryFilter::query(User::newQuery(), $filters)->paginate(10);
+    }
+}
 ``` 
 
 Please dont forget to rate :heart_eyes:
