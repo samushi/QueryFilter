@@ -42,6 +42,8 @@ class Search extends Filter
 
 ### 
 ```php
+namespace App\Http\Controllers;
+
 use App\User;
 use App\Filters\Search;
 
