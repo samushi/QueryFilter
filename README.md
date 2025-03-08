@@ -1,51 +1,63 @@
-# Introduction
+# QueryFilter for Laravel
 
 This package allows you to filter, sort and include eloquent relations based on a request. The QueryFilter used in this package extends Laravel's default Eloquent builder. This means all your favorite methods and macros are still available.
+
+## Requirements
+
+- PHP 8.2+
+- Laravel 10/11/12
 
 ## Installation
 
 Follow the steps below to install the package.
+
 ### Composer
-```
+```bash
 composer require samushi/queryfilter
 ```
 
-## Basic usage
+## Basic Usage
 
-### Before pre-usage
-Create Filters, in this example we will create basic filter, just to understand how you can create filter
+This package helps you easily filter your Eloquent queries based on request parameters.
 
-**Step 1**  
-Create directory inside app folder and rename Filters, and then create Search.php file:
+### Creating Filters
 
-**Step 2** copy and past code:
+**Step 1:** Create a `Filters` directory inside your `app` folder, then create filter classes:
+
+**Step 2:** Create a filter class (e.g., `Search.php`):
+
 ```php
 namespace App\Filters;
+
 use Samushi\QueryFilter\Filter;
+use Illuminate\Database\Eloquent\Builder;
 
 class Search extends Filter
 {
     /**
-     * Search Result by whereLike
-     * @param $builder
-     * @return mixed
+     * Search results using whereLike
+     * 
+     * @param Builder $builder
+     * @return Builder
      */
-    protected function applyFilter($builder)
+    protected function applyFilter(Builder $builder): Builder
     {
-        // if you wanna search with realtionship [name, 'posts.title']
+        // Search with relationship: ['name', 'posts.title']
         return $builder->whereLike(['name'], $this->getValue());
     }
 }
 ```
 
-**Note** Filter name and requested parameter needs to be the same name, in this example we use Search class name also `request()->input('search')` the parameter need to be the same name.
+**Note:** Filter class names must match request parameter names. For example, the `Search` class corresponds to `request()->input('search')`.
 
-### 
+### Using Filters in Controllers
+
 ```php
 namespace App\Http\Controllers;
 
-use App\User;
+use App\Models\User;
 use App\Filters\Search;
+use Samushi\QueryFilter\Facade\QueryFilter;
 
 class UserController extends Controller
 {
@@ -53,11 +65,74 @@ class UserController extends Controller
     {
         $filters = [
             Search::class,
+            // Add more filters here
         ];
 
-        return QueryFilter::query(User::newQuery(), $filters)->paginate(10);
+        return QueryFilter::query(User::query(), $filters)->paginate(10);
     }
 }
-``` 
+```
 
-Please dont forget to rate :heart_eyes:
+## Available Macros
+
+### whereLike
+
+Search in multiple columns or relationships:
+
+```php
+// Search in name column
+$users = User::whereLike(['name'], $searchTerm)->get();
+
+// Search in name and email columns
+$users = User::whereLike(['name', 'email'], $searchTerm)->get();
+
+// Search in relationship columns
+$users = User::whereLike(['name', 'posts.title'], $searchTerm)->get();
+```
+
+### whereDateBetween
+
+Filter records between two dates:
+
+```php
+// Default format: d/m/Y
+$users = User::whereDateBetween('created_at', '01/01/2023', '31/12/2023')->get();
+
+// Custom formats
+$users = User::whereDateBetween('created_at', '01-01-2023', '31-12-2023', 'd-m-Y', 'Y-m-d')->get();
+```
+
+## Creating Custom Filters
+
+You can create custom filters by extending the base `Filter` class:
+
+```php
+namespace App\Filters;
+
+use Samushi\QueryFilter\Filter;
+use Illuminate\Database\Eloquent\Builder;
+
+class PriceRange extends Filter
+{
+    protected function applyFilter(Builder $builder): Builder
+    {
+        $range = explode(',', $this->getValue());
+        
+        if (count($range) === 2) {
+            return $builder->whereBetween('price', [$range[0], $range[1]]);
+        }
+        
+        return $builder;
+    }
+}
+```
+
+Then use it in your controller:
+
+```php
+// Usage: ?price_range=10,100
+```
+
+## License
+
+The MIT License (MIT). Please see the [License File](LICENSE) for more information.

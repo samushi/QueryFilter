@@ -8,19 +8,16 @@ use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Arr;
 use Illuminate\Support\Str;
 
-/**
- * @method where
- * @method whereDate
- */
-class Mixins {
+class Mixins
+{
     /**
-     * Search anything from query by realtionship
+     * Search anything from query by relationship
      *
      * @return Closure
      */
     public function whereLike(): Closure
     {
-        return function($attributes, string $searchTerm){
+        return function(array|string $attributes, string $searchTerm): Builder {
             $this->where(function (Builder $query) use ($attributes, $searchTerm) {
                 foreach (Arr::wrap($attributes) as $attribute) {
                     $query->when(
@@ -45,18 +42,17 @@ class Mixins {
 
     /**
      * Search by date between
+     *
      * @return Closure
      */
-    public function whereDateBetween() : Closure
+    public function whereDateBetween(): Closure
     {
-        return function($attributes, $fromDate, $toDate, $fformat = 'd/m/Y', $tformat = 'Y-m-d') {
+        return function(string $attribute, string $fromDate, string $toDate, string $fromFormat = 'd/m/Y', string $toFormat = 'Y-m-d'): Builder {
+            $startDate = Carbon::createFromFormat($fromFormat, $fromDate)->format($toFormat);
+            $endDate = Carbon::createFromFormat($fromFormat, $toDate)->format($toFormat);
 
-            $start_date = Carbon::createFromFormat($fformat, $fromDate)->format($tformat);
-            $end_date   = Carbon::createFromFormat($fformat, $toDate)->format($tformat);
-
-
-            return $this->whereDate($attributes,'>=',$start_date)
-                        ->whereDate($attributes,'<=',$end_date);
+            return $this->whereDate($attribute, '>=', $startDate)
+                ->whereDate($attribute, '<=', $endDate);
         };
     }
 }
