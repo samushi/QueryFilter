@@ -1,3 +1,4 @@
+![QueryFilter Banner](banner.svg)
 # QueryFilter for Laravel
 
 This package allows you to filter, sort and include eloquent relations based on a request. The QueryFilter used in this package extends Laravel's default Eloquent builder. This means all your favorite methods and macros are still available.

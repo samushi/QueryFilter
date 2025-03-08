@@ -1,0 +1,59 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 600">
+    <!-- Background -->
+    <rect width="1200" height="600" fill="#f7fafc" />
+
+    <!-- Card containing the main info -->
+    <rect x="100" y="100" width="1000" height="400" rx="15" fill="white" stroke="#e2e8f0" stroke-width="2"/>
+
+    <!-- Laravel red accent line -->
+    <rect x="100" y="100" width="10" height="400" fill="#ff2d20" rx="5" />
+
+    <!-- Title -->
+    <text x="150" y="180" font-family="Arial, sans-serif" font-size="50" font-weight="bold" fill="#2d3748">QueryFilter</text>
+    <text x="440" y="180" font-family="Arial, sans-serif" font-size="45" font-weight="300" fill="#718096">for Laravel</text>
+
+    <!-- Version badge -->
+    <rect x="150" y="200" width="90" height="35" rx="17.5" fill="#edf2f7" />
+    <text x="195" y="224" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="#4a5568" text-anchor="middle">v2.0</text>
+
+    <!-- Laravel 12 badge -->
+    <rect x="250" y="200" width="160" height="35" rx="17.5" fill="#ff2d20" />
+    <text x="330" y="224" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">Laravel 12</text>
+
+    <!-- PHP 8.2+ badge -->
+    <rect x="420" y="200" width="140" height="35" rx="17.5" fill="#777bb3" />
+    <text x="490" y="224" font-family="Arial, sans-serif" font-size="20" font-weight="bold" fill="white" text-anchor="middle">PHP 8.2+</text>
+
+    <!-- Database filter visual -->
+    <g transform="translate(800, 300)">
+        <!-- Filter funnel icon -->
+        <path d="M160,0 L100,60 L100,100 L60,120 L60,60 L0,0 Z" fill="#4299e1" opacity="0.9" />
+
+        <!-- Data rows going through filter -->
+        <rect x="-120" y="-80" width="240" height="20" rx="5" fill="#a0aec0" opacity="0.5" />
+        <rect x="-100" y="-50" width="200" height="20" rx="5" fill="#a0aec0" opacity="0.6" />
+        <rect x="-90" y="-20" width="180" height="20" rx="5" fill="#a0aec0" opacity="0.7" />
+        <rect x="-60" y="10" width="120" height="20" rx="5" fill="#a0aec0" opacity="0.8" />
+        <rect x="-45" y="40" width="90" height="20" rx="5" fill="#a0aec0" opacity="0.9" />
+        <rect x="-35" y="70" width="70" height="20" rx="5" fill="#a0aec0" />
+    </g>
+
+    <!-- Tagline -->
+    <text x="150" y="290" font-family="Arial, sans-serif" font-size="26" fill="#4a5568">Elegant Eloquent filtering based on request parameters</text>
+
+    <!-- Feature bullets -->
+    <circle cx="170" cy="340" r="8" fill="#48bb78" />
+    <text x="190" y="345" font-family="Arial, sans-serif" font-size="22" fill="#4a5568">Filter, sort and include relations with minimal code</text>
+
+    <circle cx="170" cy="385" r="8" fill="#48bb78" />
+    <text x="190" y="390" font-family="Arial, sans-serif" font-size="22" fill="#4a5568">Create reusable, modular filter components</text>
+
+    <circle cx="170" cy="430" r="8" fill="#48bb78" />
+    <text x="190" y="435" font-family="Arial, sans-serif" font-size="22" fill="#4a5568">Powerful macros: whereLike, whereDateBetween, and more</text>
+
+    <!-- Author -->
+    <text x="150" y="480" font-family="Arial, sans-serif" font-size="18" fill="#718096">by Sami Maxhuni</text>
+
+    <!-- GitHub star suggestion -->
+    <text x="950" y="480" font-family="Arial, sans-serif" font-size="18" font-style="italic" fill="#718096" text-anchor="end">Star on GitHub ★</text>
+</svg>
