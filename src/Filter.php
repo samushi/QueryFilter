@@ -17,17 +17,17 @@ abstract class Filter
     /**
      * Middleware handle method
      *
-     * @param Request $request
+     * @param Builder $builder
      * @param Closure $next
      * @return mixed
      */
-    public function handle(Request $request, Closure $next): mixed
+    public function handle(Builder $builder, Closure $next): mixed
     {
+        $request = app(Request::class);
         if (!$request->has($this->filterName()) || $request->get($this->filterName()) === "") {
-            return $next($request);
+            return $builder;
         }
 
-        $builder = $next($request);
         return $this->applyFilter($builder);
     }
 
