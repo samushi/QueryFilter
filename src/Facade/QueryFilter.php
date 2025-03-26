@@ -10,6 +10,9 @@ namespace Samushi\QueryFilter\Facade;
 use Illuminate\Support\Facades\Facade;
 use Samushi\QueryFilter\Contract\QueryFilterInterface;
 
+/**
+ * @method static query(\Illuminate\Database\Eloquent\Builder $param, array $pipes)
+ */
 class QueryFilter extends Facade
 {
     /**

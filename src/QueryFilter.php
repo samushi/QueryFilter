@@ -11,27 +11,27 @@ use Samushi\QueryFilter\Contract\QueryFilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Pipeline\Pipeline;
 
-class QueryFilter implements QueryFilterInterface
+readonly class QueryFilter implements QueryFilterInterface
 {
     /**
      * QueryFilter constructor
      */
     public function __construct(
-        private readonly Pipeline $pipeline
+        private Pipeline $pipeline
     ) {}
 
     /**
      * Apply filters to the query builder
      *
      * @param Builder $builder
-     * @param array $pipes
+     * @param array $filters
      * @return Builder
      */
-    public function query(Builder $builder, array $pipes = []): Builder
+    public function query(Builder $builder, array $filters = []): Builder
     {
         return $this->pipeline
             ->send($builder)
-            ->through($pipes)
+            ->through($filters)
             ->thenReturn();
     }
 }

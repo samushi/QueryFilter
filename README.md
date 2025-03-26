@@ -74,6 +74,15 @@ class UserController extends Controller
 }
 ```
 
+### Using Model QueryFilter Method
+```php
+// Now you can directly use queryFilter on models
+$users = User::queryFilter([
+    Search::class,
+    // Other filters
+])->paginate(10);
+```
+
 ## Available Macros
 
 ### whereLike

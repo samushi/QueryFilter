@@ -4,6 +4,7 @@ namespace Samushi\QueryFilter;
 
 use Illuminate\Pipeline\Pipeline;
 use Illuminate\Support\ServiceProvider;
+use ReflectionException;
 use Samushi\QueryFilter\Contract\QueryFilterInterface;
 use Illuminate\Database\Eloquent\Builder;
 use Samushi\QueryFilter\Mixins\Mixins;
@@ -14,6 +15,7 @@ class QueryFilterServiceProvider extends ServiceProvider
      * Bootstrap any application services.
      *
      * @return void
+     * @throws ReflectionException
      */
     public function boot(): void
     {
