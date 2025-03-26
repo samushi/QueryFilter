@@ -15,20 +15,29 @@ abstract class Filter
     protected ?string $name = null;
 
     /**
+     * Get the requests
+     * @return Request
+     */
+    private function getRequests(): Request
+    {
+        return app(Request::class);
+    }
+
+    /**
      * Middleware handle method
      *
      * @param Builder $builder
      * @param Closure $next
-     * @return mixed
+     * @return Builder
      */
-    public function handle(Builder $builder, Closure $next): mixed
+    public function handle(Builder $builder, Closure $next): Builder
     {
-        $request = app(Request::class);
+        $request = $this->getRequests();
         if (!$request->has($this->filterName()) || $request->get($this->filterName()) === "") {
-            return $builder;
+            return $next($builder);
         }
-
-        return $this->applyFilter($builder);
+        $builder = $this->applyFilter($builder);
+        return $next($builder);
     }
 
     /**
@@ -46,7 +55,7 @@ abstract class Filter
      */
     protected function getValue(): string
     {
-        return (string) request($this->filterName());
+        return (string) $this->getRequests()->get($this->filterName());
     }
 
     /**
