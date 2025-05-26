@@ -1,0 +1,35 @@
+name: AI Code Review
+
+on:
+  pull_request:              # fire on every PR update
+    types: [opened, synchronize, reopened]
+
+jobs:
+  ai-review:
+    runs-on: ubuntu-latest
+
+    steps:
+      # 1. Checkout the PR code
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      # 2. (Optional) Build dist/ if you generate code in the workflow
+      #    – skip if not needed
+      #- run: bun install --frozen-lockfile && bun run build
+
+      # 3. Run the AI review action
+      - name: AI Code Review
+        uses: samushi/react-code-review-action@v1
+        with:
+          provider: openai
+          github-token: ${{ secrets.GH_PAT }}
+          openai-api-key: ${{ secrets.OPENAI_API_KEY }}
+
+          # === Optional overrides ===
+          stack: "php"
+          # ai-model: gpt-4o-mini
+          # file-patterns: '**/*.{js,jsx,ts,tsx}'
+          # exclude-patterns: '**/*.test.*'
+          # min-score-threshold: 7
+          # fail-on-low-score: false
+          # post-comment: true
