@@ -26,9 +26,9 @@ jobs:
           openai-api-key: ${{ secrets.OPENAI_API_KEY }}
 
           # === Optional overrides ===
-          stack: "php"
+          stack: laravel
+          file-patterns: '**/*.php,**/*.blade.php'
           # ai-model: gpt-4o-mini
-          # file-patterns: '**/*.{js,jsx,ts,tsx}'
           # exclude-patterns: '**/*.test.*'
           # min-score-threshold: 7
           # fail-on-low-score: false
