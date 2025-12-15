@@ -51,11 +51,29 @@ abstract class Filter
     /**
      * Get the filter value from the request
      *
-     * @return string
+     * @param bool $asArray Whether to return the value as an array
+     * @return string|array
      */
-    protected function getValue(): string
+    protected function getValue(bool $asArray = false): string|array
     {
-        return (string) $this->getRequests()->get($this->filterName());
+        $value = $this->getRequests()->get($this->filterName());
+
+        // If value is already an array (e.g., ?cases[]=sent&cases[]=delivered)
+        if (is_array($value)) {
+            return $asArray ? $value : implode(',', $value);
+        }
+
+        // If asArray is true and value is a comma-separated string
+        if ($asArray && is_string($value) && str_contains($value, ',')) {
+            return array_map('trim', explode(',', $value));
+        }
+
+        // If asArray is true but no comma, return as single-element array
+        if ($asArray) {
+            return [$value];
+        }
+
+        return (string) $value;
     }
 
     /**
