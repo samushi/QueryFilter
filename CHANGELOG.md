@@ -2,6 +2,32 @@
 
 All notable changes to `QueryFilter` will be documented in this file.
 
+## [v2.2.0] - 2024-12-15
+
+### Added
+- **Manual Data Injection**: Filters can now be used outside HTTP request contexts (Jobs, Commands, Tests)
+  - Added optional constructor parameter to inject data manually: `new StatusFilter(['status' => 'active'])`
+  - Filters automatically detect data source (manual data or HTTP request)
+  - Full backward compatibility - existing code works without changes
+- **Comprehensive Documentation**: Added "Using Filters Outside HTTP Requests" section with examples:
+  - Queue Jobs examples
+  - Console Commands examples
+  - Unit Tests examples
+  - Scheduled Tasks examples
+  - Mixed usage (HTTP + Manual data)
+
+### Changed
+- Enhanced `Filter` class with optional constructor for data injection
+- Added `getValueSource()` helper method for clean value retrieval
+- Updated `getValue()` and `handle()` methods to support both HTTP and manual data sources
+- Improved documentation with real-world use cases
+
+### Technical Details
+- Constructor accepts optional `?array $data = null` parameter
+- Manual data takes precedence over HTTP request parameters
+- Filter name must match array key when using manual data injection
+- Zero breaking changes - 100% backward compatible
+
 ## [v2.1.0] - 2024-12-15
 
 ### Added

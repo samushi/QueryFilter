@@ -458,6 +458,182 @@ class HasPosts extends Filter
 GET /users?has_posts=true
 ```
 
+## Using Filters Outside HTTP Requests
+
+### Overview
+
+Filters can be used in **Jobs**, **Commands**, **Tests**, and other non-HTTP contexts by injecting data manually through the constructor.
+
+### Manual Data Injection
+
+Instead of relying on HTTP request parameters, you can pass data directly to filters:
+
+```php
+namespace App\Jobs;
+
+use App\Models\Order;
+use App\Filters\Status;
+use App\Filters\DateRange;
+
+class ProcessOrdersJob
+{
+    public function handle()
+    {
+        // Manual data injection
+        $orders = Order::queryFilter([
+            new Status(['status' => 'pending,processing']),
+            new DateRange(['date_range' => '01/01/2024,31/12/2024']),
+        ])->get();
+
+        // Process orders...
+    }
+}
+```
+
+### Console Commands
+
+```php
+namespace App\Console\Commands;
+
+use App\Models\User;
+use App\Filters\Status;
+use App\Filters\Role;
+use Illuminate\Console\Command;
+
+class ExportUsersCommand extends Command
+{
+    protected $signature = 'users:export {status} {role}';
+
+    public function handle()
+    {
+        $users = User::queryFilter([
+            new Status(['status' => $this->argument('status')]),
+            new Role(['role' => $this->argument('role')]),
+        ])->get();
+
+        // Export users...
+    }
+}
+```
+
+**Usage:**
+```bash
+php artisan users:export active admin
+```
+
+### Unit Tests
+
+```php
+namespace Tests\Unit;
+
+use App\Models\Product;
+use App\Filters\PriceRange;
+use App\Filters\Categories;
+use Tests\TestCase;
+
+class ProductFilterTest extends TestCase
+{
+    public function test_filters_products_by_price_and_category()
+    {
+        $products = Product::queryFilter([
+            new PriceRange(['price_range' => '100,500']),
+            new Categories(['categories' => '1,2,3']),
+        ])->get();
+
+        $this->assertCount(5, $products);
+    }
+}
+```
+
+### Mixed Usage (HTTP + Manual)
+
+You can combine HTTP request parameters with manual data injection:
+
+```php
+// In Controller
+// GET /products?search=laptop
+
+public function index()
+{
+    $products = Product::queryFilter([
+        SearchFilter::class, // Takes 'search' from HTTP request
+        new PriceRange(['price_range' => '100,1000']), // Manual data
+        new Stock(['stock' => 'in_stock']), // Manual data
+    ])->paginate(10);
+}
+```
+
+### Queue Jobs Example
+
+```php
+namespace App\Jobs;
+
+use App\Models\Notification;
+use App\Filters\Status;
+use App\Filters\Priority;
+
+class SendNotificationsJob implements ShouldQueue
+{
+    public function handle()
+    {
+        $notifications = Notification::queryFilter([
+            new Status(['status' => 'pending']),
+            new Priority(['priority' => 'high,urgent']),
+        ])->get();
+
+        foreach ($notifications as $notification) {
+            // Send notification...
+        }
+    }
+}
+```
+
+### Scheduled Tasks
+
+```php
+namespace App\Console\Kernel;
+
+use App\Models\Order;
+use App\Filters\Status;
+use App\Filters\DateRange;
+use Carbon\Carbon;
+
+protected function schedule(Schedule $schedule)
+{
+    $schedule->call(function () {
+        $yesterday = Carbon::yesterday()->format('d/m/Y');
+        $today = Carbon::today()->format('d/m/Y');
+
+        $orders = Order::queryFilter([
+            new Status(['status' => 'completed']),
+            new DateRange(['date_range' => "$yesterday,$today"]),
+        ])->get();
+
+        // Process completed orders...
+    })->daily();
+}
+```
+
+### How It Works
+
+The filter automatically detects the data source:
+
+1. **HTTP Request Context**: If no data is provided, filters read from HTTP request parameters
+2. **Manual Data Context**: If data is provided via constructor, filters use that data
+3. **Priority**: Manual data takes precedence over HTTP request parameters
+
+```php
+// HTTP Request (automatic)
+StatusFilter::class → reads from request()->get('status')
+
+// Manual Data (explicit)
+new StatusFilter(['status' => 'active']) → uses provided data
+
+// The filter name must match the array key
+new Status(['status' => 'active']) → ✅ Correct
+new Status(['state' => 'active'])  → ❌ Won't work (key mismatch)
+```
+
 ## Custom Filter Names
 
 Override the default snake_case naming convention by setting a custom `$name` property:
@@ -482,6 +658,9 @@ class Search extends Filter
 **Usage:**
 ```
 GET /users?q=john  // Instead of ?search=john
+
+// Or with manual data:
+new Search(['q' => 'john']) // Must use 'q', not 'search'
 ```
 
 ## Best Practices

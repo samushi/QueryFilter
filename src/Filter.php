@@ -15,12 +15,38 @@ abstract class Filter
     protected ?string $name = null;
 
     /**
+     * @var array|null
+     */
+    protected ?array $data = null;
+
+    /**
+     * Filter constructor
+     *
+     * @param array|null $data Optional data array for non-HTTP contexts (Jobs, Commands, etc.)
+     */
+    public function __construct(?array $data = null)
+    {
+        $this->data = $data;
+    }
+
+    /**
      * Get the requests
      * @return Request
      */
     private function getRequests(): Request
     {
         return app(Request::class);
+    }
+
+    /**
+     * Get the raw value from data or request
+     *
+     * @return mixed
+     */
+    private function getValueSource(): mixed
+    {
+        return $this->data[$this->filterName()]
+               ?? $this->getRequests()->get($this->filterName());
     }
 
     /**
@@ -32,10 +58,12 @@ abstract class Filter
      */
     public function handle(Builder $builder, Closure $next): Builder
     {
-        $request = $this->getRequests();
-        if (!$request->has($this->filterName()) || $request->get($this->filterName()) === "") {
+        $value = $this->getValueSource();
+
+        if ($value === null || $value === "") {
             return $next($builder);
         }
+
         $builder = $this->applyFilter($builder);
         return $next($builder);
     }
@@ -49,14 +77,14 @@ abstract class Filter
     protected abstract function applyFilter(Builder $builder): Builder;
 
     /**
-     * Get the filter value from the request
+     * Get the filter value from the request or data
      *
      * @param bool $asArray Whether to return the value as an array
      * @return string|array
      */
     protected function getValue(bool $asArray = false): string|array
     {
-        $value = $this->getRequests()->get($this->filterName());
+        $value = $this->getValueSource();
 
         // If value is already an array (e.g., ?cases[]=sent&cases[]=delivered)
         if (is_array($value)) {
