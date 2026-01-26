@@ -45,8 +45,13 @@ abstract class Filter
      */
     private function getValueSource(): mixed
     {
-        return $this->data[$this->filterName()]
-               ?? $this->getRequests()->get($this->filterName());
+        $request = $this->getRequests();
+        $name = $this->filterName();
+
+        return $this->data[$name]
+            ?? $request->attributes->get($name)
+            ?? $request->query->get($name)
+            ?? $request->request->get($name);
     }
 
     /**
