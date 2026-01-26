@@ -48,10 +48,25 @@ abstract class Filter
         $request = $this->getRequests();
         $name = $this->filterName();
 
-        return $this->data[$name]
-            ?? $request->attributes->get($name)
-            ?? $request->query->get($name)
-            ?? $request->request->get($name);
+        if (isset($this->data[$name])) {
+            return $this->data[$name];
+        }
+
+        if ($request->attributes->has($name)) {
+            return $request->attributes->get($name);
+        }
+
+        $queryParams = $request->query->all();
+        if (array_key_exists($name, $queryParams)) {
+            return $queryParams[$name];
+        }
+
+        $requestParams = $request->request->all();
+        if (array_key_exists($name, $requestParams)) {
+            return $requestParams[$name];
+        }
+
+        return null;
     }
 
     /**
